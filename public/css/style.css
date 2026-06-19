@@ -3,26 +3,41 @@
 }
 
 :root {
-    --putih: #ffffff;
-    --hijau-sangat-muda: #f0fdf4;
-    --hijau-muda: #dcfce7;
-    --hijau-border: #bbf7d0;
-    --hijau: #16a34a;
-    --hijau-hover: #15803d;
-    --hijau-gelap: #14532d;
-    --hijau-teks: #166534;
-    --shadow-hijau: 0 18px 45px rgb(22 163 74 / 12%);
+    --white: #ffffff;
+    --green-50: #f0fdf4;
+    --green-100: #dcfce7;
+    --green-200: #bbf7d0;
+    --green-400: #4ade80;
+    --green-500: #22c55e;
+    --green-600: #16a34a;
+    --green-700: #15803d;
+    --green-800: #166534;
+    --green-900: #14532d;
+    --dark-bg: #020617;
+    --dark-surface: #0f172a;
+    --dark-surface-soft: #111827;
+    --dark-border: #1f3b2d;
+    --dark-text: #f8fafc;
+    --dark-muted: #bbf7d0;
 }
 
 html,
 body {
     min-height: 100vh;
+}
+
+body {
     background: linear-gradient(
         135deg,
-        var(--putih) 0%,
-        var(--hijau-sangat-muda) 100%
+        var(--white),
+        var(--green-50)
     ) !important;
-    color: var(--hijau-gelap) !important;
+    color: var(--green-900) !important;
+}
+
+.dark body {
+    background: linear-gradient(135deg, var(--dark-bg), #031f12) !important;
+    color: var(--dark-text) !important;
 }
 
 input,
@@ -35,21 +50,34 @@ button {
 input,
 select,
 textarea {
-    background-color: var(--putih) !important;
-    border-color: var(--hijau-border) !important;
-    color: var(--hijau-gelap) !important;
+    background-color: var(--white) !important;
+    border-color: var(--green-200) !important;
+    color: var(--green-900) !important;
+}
+
+.dark input,
+.dark select,
+.dark textarea {
+    background-color: var(--dark-bg) !important;
+    border-color: var(--dark-border) !important;
+    color: var(--dark-text) !important;
 }
 
 input::placeholder,
 textarea::placeholder {
-    color: rgb(22 101 52 / 65%) !important;
+    color: rgb(22 101 52 / 60%) !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+    color: rgb(187 247 208 / 65%) !important;
 }
 
 input:focus,
 select:focus,
 textarea:focus {
-    border-color: var(--hijau) !important;
-    box-shadow: 0 0 0 3px rgb(22 163 74 / 18%) !important;
+    border-color: var(--green-600) !important;
+    box-shadow: 0 0 0 3px rgb(34 197 94 / 18%) !important;
 }
 
 table {
@@ -65,139 +93,210 @@ img {
     scroll-behavior: smooth;
 }
 
-.bg-white,
-.dark .dark\:bg-white,
+.bg-white {
+    background-color: var(--white) !important;
+}
+
+.dark .bg-white,
 .dark .dark\:bg-slate-900,
 .dark .dark\:bg-slate-950 {
-    background-color: var(--putih) !important;
+    background-color: var(--dark-surface) !important;
 }
 
 .bg-slate-100,
-.bg-slate-200,
-.bg-slate-800,
-.bg-slate-900,
-.bg-slate-950,
+.bg-slate-200 {
+    background-color: var(--green-50) !important;
+}
+
+.dark .bg-slate-100,
+.dark .bg-slate-200,
 .dark .dark\:bg-slate-800 {
-    background-color: var(--hijau-sangat-muda) !important;
+    background-color: var(--dark-surface-soft) !important;
 }
 
 .bg-blue-600,
-.bg-green-600,
-.bg-slate-900,
-.bg-red-600,
-.bg-yellow-500 {
-    background-color: var(--hijau) !important;
-    color: var(--putih) !important;
+.bg-green-600 {
+    background-color: var(--green-600) !important;
+    color: var(--white) !important;
 }
 
 .hover\:bg-blue-700:hover,
-.hover\:bg-green-700:hover,
-.hover\:bg-slate-800:hover,
-.hover\:bg-red-700:hover,
-.hover\:bg-yellow-600:hover {
-    background-color: var(--hijau-hover) !important;
-    color: var(--putih) !important;
+.hover\:bg-green-700:hover {
+    background-color: var(--green-700) !important;
+    color: var(--white) !important;
 }
 
-.hover\:bg-slate-100:hover,
+.bg-slate-900 {
+    background-color: var(--green-900) !important;
+    color: var(--white) !important;
+}
+
+.dark .bg-slate-900 {
+    background-color: var(--green-600) !important;
+    color: var(--white) !important;
+}
+
+.bg-red-600,
+.bg-yellow-500 {
+    background-color: var(--green-600) !important;
+    color: var(--white) !important;
+}
+
+.hover\:bg-red-700:hover,
+.hover\:bg-yellow-600:hover,
+.hover\:bg-slate-800:hover {
+    background-color: var(--green-700) !important;
+    color: var(--white) !important;
+}
+
+.hover\:bg-slate-100:hover {
+    background-color: var(--green-100) !important;
+    color: var(--green-900) !important;
+}
+
+.dark .hover\:bg-slate-100:hover,
 .dark .dark\:hover\:bg-slate-800:hover {
-    background-color: var(--hijau-muda) !important;
-    color: var(--hijau-gelap) !important;
+    background-color: #123524 !important;
+    color: var(--dark-text) !important;
 }
 
 .text-slate-900,
 .text-slate-800,
-.text-slate-100,
-.dark .dark\:text-slate-100,
 .dark .dark\:text-slate-900 {
-    color: var(--hijau-gelap) !important;
+    color: var(--green-900) !important;
+}
+
+.dark .text-slate-900,
+.dark .text-slate-800,
+.dark .dark\:text-slate-100 {
+    color: var(--dark-text) !important;
 }
 
 .text-slate-600,
 .text-slate-500,
 .text-slate-400,
-.text-slate-300,
-.dark .dark\:text-slate-400,
-.dark .dark\:text-slate-300 {
-    color: var(--hijau-teks) !important;
+.text-slate-300 {
+    color: var(--green-800) !important;
+}
+
+.dark .text-slate-600,
+.dark .text-slate-500,
+.dark .text-slate-400,
+.dark .text-slate-300,
+.dark .dark\:text-slate-300,
+.dark .dark\:text-slate-400 {
+    color: var(--dark-muted) !important;
 }
 
 .text-blue-600,
 .text-blue-400,
 .text-green-600,
-.text-red-600,
-.text-yellow-500,
 .dark .dark\:text-blue-400 {
-    color: var(--hijau) !important;
+    color: var(--green-600) !important;
+}
+
+.dark .text-blue-600,
+.dark .text-blue-400,
+.dark .text-green-600,
+.dark .dark\:text-blue-400 {
+    color: var(--green-400) !important;
 }
 
 .text-blue-100,
 .text-green-100 {
-    color: var(--hijau-muda) !important;
+    color: var(--green-100) !important;
 }
 
 .text-white {
-    color: var(--putih) !important;
+    color: var(--white) !important;
 }
 
 .border-slate-200,
 .border-slate-300,
-.border-slate-700,
-.border-slate-800,
-.border-green-300,
-.border-red-300,
+.border-green-300 {
+    border-color: var(--green-200) !important;
+}
+
+.dark .border-slate-200,
+.dark .border-slate-300,
+.dark .border-slate-700,
+.dark .border-slate-800,
 .dark .dark\:border-slate-700,
-.dark .dark\:border-slate-800,
-.dark .dark\:border-green-700,
-.dark .dark\:border-red-700 {
-    border-color: var(--hijau-border) !important;
+.dark .dark\:border-slate-800 {
+    border-color: var(--dark-border) !important;
 }
 
 .bg-green-50,
-.bg-red-50,
+.bg-red-50 {
+    background-color: var(--green-50) !important;
+    color: var(--green-900) !important;
+}
+
+.dark .bg-green-50,
+.dark .bg-red-50,
 .dark .dark\:bg-green-950,
 .dark .dark\:bg-red-950 {
-    background-color: var(--hijau-sangat-muda) !important;
-    color: var(--hijau-gelap) !important;
+    background-color: var(--dark-surface) !important;
+    color: var(--dark-text) !important;
 }
 
 .text-green-800,
-.text-red-800,
+.text-red-800 {
+    color: var(--green-900) !important;
+}
+
+.dark .text-green-800,
+.dark .text-red-800,
 .dark .dark\:text-green-200,
 .dark .dark\:text-red-200 {
-    color: var(--hijau-gelap) !important;
+    color: var(--green-100) !important;
 }
 
 .bg-white\/10 {
-    background-color: rgb(255 255 255 / 18%) !important;
+    background-color: rgb(255 255 255 / 14%) !important;
+}
+
+.dark .bg-white\/10 {
+    background-color: rgb(34 197 94 / 16%) !important;
 }
 
 .bg-black\/40 {
-    background-color: rgb(20 83 45 / 35%) !important;
+    background-color: rgb(2 6 23 / 55%) !important;
 }
 
 .border-white\/20 {
-    border-color: rgb(255 255 255 / 35%) !important;
+    border-color: rgb(255 255 255 / 25%) !important;
 }
 
 .shadow-sm,
 .shadow-xl {
-    box-shadow: var(--shadow-hijau) !important;
+    box-shadow: 0 18px 45px rgb(22 163 74 / 10%) !important;
+}
+
+.dark .shadow-sm,
+.dark .shadow-xl {
+    box-shadow: 0 18px 45px rgb(0 0 0 / 35%) !important;
 }
 
 .sidebar-link {
-    color: var(--hijau-gelap) !important;
+    color: var(--green-900) !important;
+}
+
+.dark .sidebar-link {
+    color: var(--dark-text) !important;
 }
 
 .sidebar-link:hover {
-    background-color: var(--hijau-muda) !important;
-    color: var(--hijau-gelap) !important;
+    background-color: var(--green-100) !important;
+    color: var(--green-900) !important;
 }
 
-a {
-    transition: 180ms ease;
+.dark .sidebar-link:hover {
+    background-color: #123524 !important;
+    color: var(--dark-text) !important;
 }
 
+a,
 button,
 a.rounded-xl,
 a.rounded-2xl,
@@ -210,15 +309,21 @@ a.rounded-lg {
     height: 10px;
 }
 
-::-webkit-scrollbar-track,
-.dark ::-webkit-scrollbar-track {
-    background: var(--hijau-muda);
+::-webkit-scrollbar-track {
+    background: var(--green-100);
 }
 
-::-webkit-scrollbar-thumb,
-.dark ::-webkit-scrollbar-thumb {
-    background: var(--hijau);
+::-webkit-scrollbar-thumb {
+    background: var(--green-600);
     border-radius: 999px;
+}
+
+.dark ::-webkit-scrollbar-track {
+    background: var(--dark-bg);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: var(--green-600);
 }
 
 @media (max-width: 768px) {
