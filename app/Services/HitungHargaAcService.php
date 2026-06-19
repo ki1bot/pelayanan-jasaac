@@ -23,4 +23,20 @@ class HitungHargaService
             'total_harga' => $subtotal + $biayaJarak,
         ];
     }
+
+    public function hitung(float $hargaSatuan, int $jumlah, float $jarakKm): array
+    {
+        $jumlahFinal = max($jumlah, 1);
+        $jarakFinal = max($jarakKm, 0);
+        $biayaJarak = $jarakFinal * 5000;
+        $subtotal = $hargaSatuan * $jumlahFinal;
+
+        return [
+            'harga_satuan' => $hargaSatuan,
+            'jumlah' => $jumlahFinal,
+            'jarak_km' => $jarakFinal,
+            'biaya_jarak' => $biayaJarak,
+            'total_harga' => $subtotal + $biayaJarak,
+        ];
+    }
 }

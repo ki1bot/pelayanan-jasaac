@@ -44,22 +44,34 @@ class KeranjangController extends Controller
         ]);
 
         $idLogin = (int) Auth::id();
-        $jumlah = $data['jenis'] === 'service' ? 1 : (int) ($data['jumlah'] ?? 1);
-        $item = $this->ambilHarga($data['jenis'], (int) $data['id_harga']);
+
+        $user = LoginAc::query()->findOrFail($idLogin);
+
+        $jenis = $data['jenis'];
+
+        $detail = $data['data_detail'] ?? [];
+
+        $jumlah = $jenis === 'service' ? 1 : (int) ($data['jumlah'] ?? 1);
+
+        $item = $this->ambilHarga($jenis, (int) $data['id_harga']);
+
         $hasil = $hitungHarga->hitung((float) $item['harga'], $jumlah, (float) $data['jarak_km']);
 
         Keranjang::query()->create([
             'id_login' => $idLogin,
-            'jenis' => $data['jenis'],
+            'jenis_pesanan' => $jenis,
             'id_harga' => $data['id_harga'],
             'nama_item' => $item['nama_item'],
+            'nama_pemesan' => $this->ambilNamaPemesan($jenis, $detail, $user),
+            'jenis_kelamin' => $detail['jenis_kelamin'] ?? $user->jenis_kelamin,
+            'telepon' => $detail['telepon'] ?? $detail['telp_client'] ?? null,
             'lokasi' => $data['lokasi'],
             'jumlah' => $jumlah,
             'harga_satuan' => $hasil['harga_satuan'],
             'jarak_km' => $hasil['jarak_km'],
             'biaya_jarak' => $hasil['biaya_jarak'],
             'total_harga' => $hasil['total_harga'],
-            'data_detail' => $data['data_detail'] ?? [],
+            'detail' => $detail,
         ]);
 
         return redirect()->route('keranjang.index')->with('success', 'Produk berhasil dimasukkan ke keranjang.');
@@ -72,7 +84,7 @@ class KeranjangController extends Controller
         $keranjang = Keranjang::query()
             ->where('id_login', $idLogin)
             ->where('id_keranjang', $id)
-            ->firstOrFail(['*']);
+            ->firstOrFail();
 
         $keranjang->delete();
 
@@ -83,8 +95,7 @@ class KeranjangController extends Controller
     {
         $idLogin = (int) Auth::id();
 
-        $user = LoginAc::query()
-            ->findOrFail($idLogin);
+        $user = LoginAc::query()->findOrFail($idLogin);
 
         $keranjang = Keranjang::query()
             ->where('id_login', $idLogin)
@@ -97,13 +108,13 @@ class KeranjangController extends Controller
         }
 
         foreach ($keranjang as $item) {
-            $detail = is_array($item->data_detail) ? $item->data_detail : [];
+            $detail = is_array($item->detail) ? $item->detail : [];
 
-            if ($item->jenis === 'beli') {
+            if ($item->jenis_pesanan === 'beli') {
                 BeliAc::query()->create([
                     'id_hargabeli' => $item->id_harga,
-                    'nama_pembeli' => $detail['nama_pembeli'] ?? $user->nama,
-                    'jenis_kelamin' => $detail['jenis_kelamin'] ?? $user->jenis_kelamin,
+                    'nama_pembeli' => $detail['nama_pembeli'] ?? $item->nama_pemesan ?? $user->nama,
+                    'jenis_kelamin' => $detail['jenis_kelamin'] ?? $item->jenis_kelamin ?? $user->jenis_kelamin,
                     'merk_ac' => $item->nama_item,
                     'lokasi' => $item->lokasi,
                     'jumlah' => $item->jumlah,
@@ -116,11 +127,11 @@ class KeranjangController extends Controller
                 ]);
             }
 
-            if ($item->jenis === 'jual') {
+            if ($item->jenis_pesanan === 'jual') {
                 JualAc::query()->create([
                     'id_hargajual' => $item->id_harga,
-                    'nama_penjual' => $detail['nama_penjual'] ?? $user->nama,
-                    'jenis_kelamin' => $detail['jenis_kelamin'] ?? $user->jenis_kelamin,
+                    'nama_penjual' => $detail['nama_penjual'] ?? $item->nama_pemesan ?? $user->nama,
+                    'jenis_kelamin' => $detail['jenis_kelamin'] ?? $item->jenis_kelamin ?? $user->jenis_kelamin,
                     'merk_ac' => $item->nama_item,
                     'lokasi' => $item->lokasi,
                     'jumlah' => $item->jumlah,
@@ -133,12 +144,12 @@ class KeranjangController extends Controller
                 ]);
             }
 
-            if ($item->jenis === 'service') {
+            if ($item->jenis_pesanan === 'service') {
                 ServiceAc::query()->create([
                     'id_hargaservice' => $item->id_harga,
-                    'nama_client' => $detail['nama_client'] ?? $user->nama,
-                    'jenis_kelamin' => $detail['jenis_kelamin'] ?? $user->jenis_kelamin,
-                    'telp_client' => $detail['telp_client'] ?? '-',
+                    'nama_client' => $detail['nama_client'] ?? $item->nama_pemesan ?? $user->nama,
+                    'jenis_kelamin' => $detail['jenis_kelamin'] ?? $item->jenis_kelamin ?? $user->jenis_kelamin,
+                    'telp_client' => $detail['telp_client'] ?? $item->telepon ?? '-',
                     'lokasi_client' => $item->lokasi,
                     'keterangan_ac' => $item->nama_item,
                     'tanggal_awal' => $detail['tanggal_awal'] ?? now(),
@@ -191,5 +202,18 @@ class KeranjangController extends Controller
             'nama_item' => $harga->keterangan_ac,
             'harga' => $harga->harga,
         ];
+    }
+
+    private function ambilNamaPemesan(string $jenis, array $detail, LoginAc $user): string
+    {
+        if ($jenis === 'beli') {
+            return $detail['nama_pembeli'] ?? $user->nama;
+        }
+
+        if ($jenis === 'jual') {
+            return $detail['nama_penjual'] ?? $user->nama;
+        }
+
+        return $detail['nama_client'] ?? $user->nama;
     }
 }
