@@ -11,6 +11,41 @@ document.addEventListener("DOMContentLoaded", function () {
     const profileToggle = document.getElementById("profileToggle");
     const profileMenu = document.getElementById("profileMenu");
 
+    function eyeIcon() {
+        return `
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/>
+                <circle cx="12" cy="12" r="3"/>
+            </svg>
+        `;
+    }
+
+    function eyeOffIcon() {
+        return `
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.576 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/>
+                <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/>
+                <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/>
+                <path d="m2 2 20 20"/>
+            </svg>
+        `;
+    }
+
+    function setPasswordIcon(button, isVisible) {
+        button.innerHTML = isVisible ? eyeOffIcon() : eyeIcon();
+        button.setAttribute(
+            "aria-label",
+            isVisible ? "Sembunyikan password" : "Tampilkan password",
+        );
+        button.classList.add(
+            "inline-flex",
+            "items-center",
+            "justify-center",
+            "text-green-700",
+            "dark:text-green-300",
+        );
+    }
+
     function setTheme(theme) {
         if (theme === "dark") {
             html.classList.add("dark");
@@ -117,20 +152,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     document.querySelectorAll(".toggle-password").forEach(function (button) {
+        const input = button.parentElement.querySelector(".toggle-input");
+
+        if (!input) {
+            return;
+        }
+
+        setPasswordIcon(button, false);
+
         button.addEventListener("click", function () {
-            const input = button.parentElement.querySelector(".toggle-input");
-
-            if (!input) {
-                return;
-            }
-
-            if (input.type === "password") {
-                input.type = "text";
-                button.textContent = "🙈";
-            } else {
-                input.type = "password";
-                button.textContent = "👁";
-            }
+            const isVisible = input.type === "password";
+            input.type = isVisible ? "text" : "password";
+            setPasswordIcon(button, isVisible);
         });
     });
 });

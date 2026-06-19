@@ -21,12 +21,12 @@
 
             <div class="relative">
                 <input type="password" name="password" placeholder="Password" class="toggle-input w-full rounded-xl border border-slate-300 bg-white px-4 py-3 pr-12 dark:border-slate-700 dark:bg-slate-950" required>
-                <button type="button" class="toggle-password absolute right-4 top-3 text-sm font-semibold">👁</button>
+                <button type="button" class="toggle-password absolute right-4 top-3 text-sm font-semibold"></button>
             </div>
 
             <div class="relative">
                 <input type="password" name="password_confirmation" placeholder="Konfirmasi password" class="toggle-input w-full rounded-xl border border-slate-300 bg-white px-4 py-3 pr-12 dark:border-slate-700 dark:bg-slate-950" required>
-                <button type="button" class="toggle-password absolute right-4 top-3 text-sm font-semibold">👁</button>
+                <button type="button" class="toggle-password absolute right-4 top-3 text-sm font-semibold"></button>
             </div>
 
             <button type="submit" class="w-full rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700">

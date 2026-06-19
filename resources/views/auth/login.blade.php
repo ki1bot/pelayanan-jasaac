@@ -28,7 +28,7 @@
 
             <div class="relative">
                 <input type="password" name="password" placeholder="Password" class="toggle-input w-full rounded-xl border border-slate-300 bg-white px-4 py-3 pr-12 dark:border-slate-700 dark:bg-slate-950" required>
-                <button type="button" class="toggle-password absolute right-4 top-3 text-sm font-semibold">👁</button>
+                <button type="button" class="toggle-password absolute right-4 top-3 text-sm font-semibold"></button>
             </div>
 
             <label class="flex items-center gap-2 text-sm">
