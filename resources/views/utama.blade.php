@@ -9,11 +9,11 @@
     <script src="{{ asset('js/script.js') }}" defer></script>
 </head>
 <body class="min-h-screen w-full overflow-x-hidden bg-slate-100 text-slate-900 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100">
-    <div class="min-h-screen w-full">
+    <div class="flex min-h-screen w-full flex-col">
         <x-navbar />
         <x-sidebar />
 
-        <main class="min-h-screen w-full px-4 py-6 md:px-8">
+        <main class="w-full flex-1 px-4 py-6 md:px-8">
             @if(session('success'))
                 <div class="mb-5 rounded-xl border border-green-300 bg-green-50 px-4 py-3 text-sm text-green-800 dark:border-green-700 dark:bg-green-950 dark:text-green-200">
                     {{ session('success') }}
@@ -32,6 +32,8 @@
 
             @yield('content')
         </main>
+
+        <x-footer />
     </div>
 </body>
 </html>
